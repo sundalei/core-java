@@ -40,5 +40,7 @@ public class BewareTheKraken {
         System.out.println("We ended up swimming " + depthDivedInFt +
                 " feet down.");
         System.out.println("I bet we can do better next time!");
+
+        myScanner.close();
     }
 }

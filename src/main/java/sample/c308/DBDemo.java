@@ -1,10 +1,13 @@
 package sample.c308;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class DBDemo {
     
@@ -15,10 +18,22 @@ public class DBDemo {
         // 4. From Statement, get ResultSet
         // 5. ResultSet contain exact data from table in the database
 
+        Properties prop = null;
+        FileInputStream input = null;
         Connection conn = null;
+
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/emp", "root", "oarnud9I");
+            input = new FileInputStream("C:\\study\\core-java\\src\\main\\java\\sample\\c308\\DBConfig.properties");
+            prop = new Properties();
+            prop.load(input);
+
+            String driver = prop.getProperty("driver");
+            String url = prop.getProperty("url");
+            String username = prop.getProperty("username");
+            String password = prop.getProperty("password");
+
+            Class.forName(driver);
+            conn = DriverManager.getConnection(url, username, password);
             System.out.println(conn);
 
             Statement state = conn.createStatement();
@@ -32,6 +47,8 @@ public class DBDemo {
         } catch (ClassNotFoundException e) {
 
         } catch (SQLException e) {
+
+        } catch (IOException e) {
 
         }
     }
