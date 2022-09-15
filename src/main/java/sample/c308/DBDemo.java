@@ -4,9 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
 
 public class DBDemo {
@@ -36,14 +35,21 @@ public class DBDemo {
             conn = DriverManager.getConnection(url, username, password);
             System.out.println(conn);
 
-            Statement state = conn.createStatement();
-            ResultSet rs = state.executeQuery("select * from employee");
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                String fname = rs.getString(2);
-                String lname = rs.getString(3);
-                System.out.println(id + " " + fname + " " + lname);
-            }
+            // Statement state = conn.createStatement();
+            PreparedStatement pStat = conn.prepareStatement("insert into employee (id, fname, lname) values (?, ?, ?)");
+            pStat.setInt(1, 50);
+            pStat.setString(2, "leo");
+            pStat.setString(3, "sun");
+
+            pStat.executeUpdate();
+
+            // ResultSet rs = state.executeQuery("select * from employee");
+            // while (rs.next()) {
+            //     int id = rs.getInt(1);
+            //     String fname = rs.getString(2);
+            //     String lname = rs.getString(3);
+            //     System.out.println(id + " " + fname + " " + lname);
+            // }
         } catch (ClassNotFoundException e) {
 
         } catch (SQLException e) {
