@@ -1,10 +1,9 @@
 package sample.c308.intermediate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 @FunctionalInterface
 interface Greetable {
@@ -41,6 +40,55 @@ class RunnableImpl implements Runnable {
 }
 
 public class LambdaDemo {
+
+    public void doBehaviourPassing() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+        //System.out.println(sumAll(numbers));
+        //System.out.println(sumAllEven(numbers));
+        System.out.println(sum(numbers, num -> true));
+        System.out.println(sum(numbers, num -> num % 2 == 0));
+        System.out.println(sum(numbers, num -> num > 3));
+    }
+
+    public void doBinaryOperation() {
+        List<Integer> numbers = Arrays.asList(20, 10);
+        System.out.println(performBinaryOp(numbers, (t, u) -> t + u));
+        System.out.println(performBinaryOp(numbers, (t, u) -> t - u));
+        System.out.println(performBinaryOp(numbers, (t, u) -> t * u));
+        System.out.println(performBinaryOp(numbers, (t, u) -> t / u));
+    }
+
+    private int performBinaryOp(List<Integer> nums, BinaryOperator<Integer> binaryOperator) {
+        return binaryOperator.apply(nums.get(0), nums.get(1));
+    }
+
+    private int sumAll(List<Integer> nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        return sum;
+    }
+
+    private int sumAllEven(List<Integer> nums) {
+        int sum = 0;
+        for (int num : nums) {
+            if (num % 2 == 0) {
+                sum += num;
+            }
+        }
+        return sum;
+    }
+
+    private int sum(List<Integer> nums, Predicate<Integer> p) {
+        int sum = 0;
+        for (int num : nums) {
+            if (p.test(num)) {
+                sum += num;
+            }
+        }
+        return sum;
+    }
 
     public static void main(String[] args) {
         Greetable gt1 = new GreetableImpl();
@@ -142,5 +190,13 @@ public class LambdaDemo {
 
         Collections.sort(students, c3);
         students.forEach(student -> System.out.println(student));
+
+        System.out.println("------------------------------");
+
+        LambdaDemo demo = new LambdaDemo();
+        demo.doBehaviourPassing();
+
+        System.out.println("------------------------------");
+        demo.doBinaryOperation();
     }
 }
