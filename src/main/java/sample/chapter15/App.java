@@ -2,10 +2,8 @@ package sample.chapter15;
 
 public class App {
     public static void main(String[] args) {
-        Dog myDog = new Dog();
-        myDog.setName("Spot");
-        myDog.setWeight(34.0);
 
-        Dog anotherDog = new Dog("Buster", 23.5);
+        int sum = Adder.add(4, 5);
+        System.out.println("The sum is " + sum);
     }
 }
